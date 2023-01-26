@@ -2,6 +2,7 @@ import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import { useState } from "react";
+import { InitialPayment } from "./paymentGroup";
 
 function getBalance() {
   const o = Math.floor(Math.random() * 200) - 100;
@@ -16,6 +17,8 @@ const names = ["John", "Paul", "George", "Ringo", "Pete"];
 function getName() {
   return names[Math.floor(Math.random() * names.length)];
 }
+
+const groups = ["Group 1", "Group 2", "Group 3"];
 
 interface Person {
   name: string;
@@ -37,11 +40,6 @@ function updateGroups(groupName: string) {
 }
 
 function CreateGroup(Group: { name: string }) {
-  const [divWidth, setDivWidth] = useState("w-1/6");
-  function changeDivWidth() {
-    setDivWidth("w-3/4");
-  }
-
   return (
     <div
       className={`mr-10 mb-10 flex w-1/6 min-w-fit flex-col rounded-3xl bg-gray-50 px-5 drop-shadow-xl`}
@@ -50,10 +48,7 @@ function CreateGroup(Group: { name: string }) {
         <h1 className="m-5 text-center text-2xl font-semibold">{Group.name}</h1>
         <div className="flex flex-row justify-evenly">
           <h1 className="text-2xl">-13</h1>
-          <button
-            className="rounded bg-indigo-100 py-2 px-4 font-bold drop-shadow-xl hover:bg-indigo-200"
-            onClick={changeDivWidth}
-          >
+          <button className="rounded bg-indigo-100 py-2 px-4 font-bold drop-shadow-xl hover:bg-indigo-200">
             +
           </button>
         </div>
@@ -67,79 +62,6 @@ function CreateGroup(Group: { name: string }) {
     </div>
   );
 }
-
-function PersonPayment(person: Person) {
-  return (
-    <div className="mb-5 flex flex-row justify-between">
-      <button className="rounded bg-indigo-100 py-2 px-4 hover:bg-indigo-200">
-        $
-      </button>
-      <h1 className="text-xl">{person.name}</h1>
-      <p className="text-xl">{person.balance}</p>
-    </div>
-  );
-}
-
-function CreatePayment(Group: { name: string }) {
-  const [divWidth, setDivWidth] = useState("w-1/6");
-  function changeDivWidth() {
-    setDivWidth("w-3/4");
-  }
-
-  return (
-    <div
-      className={`ml-10 flex w-1/6 min-w-fit flex-col rounded-3xl bg-gray-50 px-5 drop-shadow-xl`}
-    >
-      <div className="flex h-auto w-auto flex-col">
-        <h1 className="m-5 text-center text-2xl font-semibold">{Group.name}</h1>
-        <div className="flex flex-row justify-evenly">
-          <div>
-            <label
-              htmlFor="price"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Price
-            </label>
-            <div className="relative mt-1 rounded-md shadow-sm">
-              <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                <span className="text-gray-500 sm:text-sm">$</span>
-              </div>
-              <input
-                type="text"
-                name="price"
-                id="price"
-                className="block w-full rounded-md border-transparent bg-indigo-50 pl-7 pr-12 focus:border-indigo-200 focus:ring-indigo-200 sm:text-sm"
-                placeholder="0.00"
-              ></input>
-              <div className="absolute inset-y-0 right-0 flex items-center">
-                <label htmlFor="currency" className="sr-only">
-                  Currency
-                </label>
-                <select
-                  id="currency"
-                  name="currency"
-                  className="h-full rounded-md border-transparent bg-indigo-50 py-0 pl-2 pr-7 text-gray-500 focus:border-indigo-200 focus:ring-indigo-200 sm:text-sm"
-                >
-                  <option>USD</option>
-                  <option>CAD</option>
-                  <option>EUR</option>
-                </select>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="my-5 flex h-auto w-auto flex-col justify-between">
-        <PersonPayment name="Tom" balance={15} />
-        <PersonPayment name="John" balance={-20} />
-        <PersonPayment name="Paul" balance={-5} />
-        <PersonPayment name="George" balance={10} />
-      </div>
-    </div>
-  );
-}
-
-const groups = ["Group 1", "Group 2", "Group 3"];
 
 function ReturnGroups() {
   return (
@@ -155,7 +77,7 @@ function RetrunPayments() {
   return (
     <>
       {groups.map((e) => (
-        <CreatePayment name={e} />
+        <InitialPayment name={e} />
       ))}
     </>
   );
@@ -164,31 +86,40 @@ function RetrunPayments() {
 function App() {
   return (
     <div>
-      <div className="flex h-auto w-auto flex-col bg-gradient-to-br from-indigo-200 via-purple-200 to-pink-200 p-10">
-        <div className="text-no-wrap w-1/3 min-w-fit rounded-3xl bg-gray-50 drop-shadow-xl">
-          <div className="flex w-auto flex-row justify-between p-5">
-            <div className="">
-              <h1 className="pb-2 text-3xl">Hello,</h1>
-              <h1 className="text-5xl">{getName()}</h1>
+      <div className="bg-gradient-to-br from-indigo-200 via-purple-200 to-pink-200">
+        <div className="flex h-auto w-auto flex-col px-10 pt-10">
+          <div className="text-no-wrap w-1/3 min-w-fit rounded-3xl bg-gray-50 drop-shadow-xl">
+            <div className="flex w-auto flex-row justify-between p-5">
+              <div className="">
+                <h1 className="pb-2 text-3xl">Hello,</h1>
+                <h1 className="text-5xl">{getName()}</h1>
+              </div>
             </div>
-          </div>
-          <div className="my-6 flex w-auto flex-row justify-between p-5">
+            <div className="my-6 flex w-auto flex-row justify-between p-5">
+              <div className="w-1/2">
+                <h1 className="pb-2 text-2xl">Overall balance:</h1>
+                {getBalance()}
+              </div>
+            </div>
             <div className="w-1/2">
-              <h1 className="pb-2 text-2xl">Overall balance:</h1>
-              {getBalance()}
+              <h1></h1>
             </div>
           </div>
-          <div className="w-1/2">
-            <h1></h1>
+          <div className="flex-start my-10 flex w-auto flex-row flex-wrap">
+            <ReturnGroups />
           </div>
         </div>
-        <div className="flex-start my-10 flex w-auto flex-row flex-wrap">
-          <ReturnGroups />
-        </div>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 1440 320"
+          className="absolute bg-fixed fill-inherit"
+        >
+          <path
+            fill-opacity="1 "
+            d="M0,64L34.3,74.7C68.6,85,137,107,206,144C274.3,181,343,235,411,240C480,245,549,203,617,176C685.7,149,754,139,823,144C891.4,149,960,171,1029,165.3C1097.1,160,1166,128,1234,112C1302.9,96,1371,96,1406,96L1440,96L1440,0L1405.7,0C1371.4,0,1303,0,1234,0C1165.7,0,1097,0,1029,0C960,0,891,0,823,0C754.3,0,686,0,617,0C548.6,0,480,0,411,0C342.9,0,274,0,206,0C137.1,0,69,0,34,0L0,0Z"
+          ></path>
+        </svg>
       </div>
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
-  <path fill="#0099ff" fill-opacity="1" d="M0,224L48,234.7C96,245,192,267,288,256C384,245,480,203,576,192C672,181,768,203,864,218.7C960,235,1056,245,1152,245.3C1248,245,1344,235,1392,229.3L1440,224L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
-</svg>
       <div className="flex flex-row bg-indigo-200 py-10">
         <RetrunPayments />
       </div>
