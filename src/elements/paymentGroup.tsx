@@ -25,12 +25,12 @@ function PersonPayment(props: Props) {
   );
 }
 
-export function InitialPayment(Group: { name: string }) {
+export function InitialPayment(props: { groupName: string, names:string[] }) {
   const [state, setState] = useState(true);
   return (
     <div className="ml-10 flex w-1/6 min-w-fit flex-col rounded-3xl bg-gray-50 px-5 drop-shadow-xl">
       <div className="flex h-auto w-auto flex-col">
-        <h1 className="m-5 text-center text-2xl font-semibold">{Group.name}</h1>
+        <h1 className="m-5 text-center text-2xl font-semibold">{props.groupName}</h1>
         <div className="flex flex-row justify-evenly">
           <div>
             <label
@@ -69,10 +69,7 @@ export function InitialPayment(Group: { name: string }) {
         </div>
       </div>
       <div className="my-5 flex h-min w-auto flex-col justify-between">
-        {state && <PersonPayment setState={setState} name="Tom" balance={15} />}
-        {state && <PersonPayment setState={setState} name="John" balance={-20} />}
-        {state && <PersonPayment setState={setState} name="Paul" balance={-5} />}
-        {state && <PersonPayment setState={setState} name="George" balance={10} />}
+        {props.names.map((e) => state && <PersonPayment setState={setState} name={e} balance={Math.floor(Math.random() * 200) - 100} />)}
       </div>
     </div>
   );
